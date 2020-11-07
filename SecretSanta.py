@@ -8,17 +8,18 @@ BUDGET = "$30.00"
 # Main function
 def main():
     # Check input arguments
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print("Error: Incorrect number of input arguments.")
-        print(f"Ussage: {sys.argv[0]} <Participants filepath>")
+        print(f"Ussage: {sys.argv[0]} <Participants filepath> <Output folder>")
         print("Exiting.\n")
         exit()
 
     filepath = str(sys.argv[1])
+    outputFolder = str(sys.argv[2])
 
     partList = open_file(filepath)  # Create participants list
     assign_santas(partList)         # Assign secret santas
-    write_files(partList)           # Write files
+    write_files(partList, outputFolder)           # Write files
 
     print("Complete.")
 
@@ -31,7 +32,7 @@ def open_file(filepath):
             # Create participants
             for row in inputFile:
                 if len(row) != 0:
-                    partList.append([row, ""])
+                    partList.append([row.strip(), ""])
             inputFile.close()
         print(f"Read participant file: {filepath}")
     else:
@@ -45,15 +46,18 @@ def assign_santas(partList):
     for ii in range(0, len(partList)):
         partList[ii][1] = partList[(ii+1)%len(partList)][0]
 
-def write_files(partList):
-    for part in partList:
-        write_file(part)
+def write_files(partList, outputFolder):
+    if not os.path.exists(outputFolder):
+        os.mkdir(outputFolder)
 
-def write_file(part):
-    fileName = part[0] + "_Santa.txt"
+    for part in partList:
+        write_file(part, outputFolder)
+
+def write_file(part, outputFolder):
+    fileName = f"{outputFolder}/{part[0]}_Santa.txt"
     fileContent = (
-        f"To {part[0]} + ,\n" +
-        f"You get to buy a secret santa present for {part[1]} + .\n" +
+        f"To {part[0]},\n" +
+        f"You get to buy a secret santa present for {part[1]}.\n" +
         f"The budget is {BUDGET}.\n"
         "Good luck.\n"
     )
