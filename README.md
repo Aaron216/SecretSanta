@@ -3,7 +3,7 @@ A Python script for allocating secret Santas
 
 ## Usage
 ```
-python SecretSanta.py <Participants Filepath>
+python SecretSanta.py <Participants file> <Output folder>
 ```
 
 ## Inputs
