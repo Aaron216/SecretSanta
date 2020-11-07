@@ -7,6 +7,12 @@ BUDGET = "$30.00"
 
 # Main function
 def main():
+    # Check python version
+    if sys.version_info.major < 3:
+        print("Error: Requires Python 3")
+        print("Exiting.\n")
+        exit()
+
     # Check input arguments
     if len(sys.argv) != 3:
         print("Error: Incorrect number of input arguments.")
@@ -17,11 +23,11 @@ def main():
     filepath = str(sys.argv[1])
     outputFolder = str(sys.argv[2])
 
-    partList = open_file(filepath)  # Create participants list
-    assign_santas(partList)         # Assign secret santas
-    write_files(partList, outputFolder)           # Write files
+    partList = open_file(filepath)      # Create participants list
+    assign_santas(partList)             # Assign secret santas
+    write_files(partList, outputFolder) # Write files
 
-    print("Complete.")
+    print("Complete.\n")
 
 def open_file(filepath):
     partList = []
