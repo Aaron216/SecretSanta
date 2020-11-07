@@ -2,7 +2,8 @@ import sys
 import os
 import random
 
-from tabulate import tabulate
+# Constants
+BUDGET = "$30.00"
 
 # Main function
 def main():
@@ -19,7 +20,6 @@ def main():
     assign_santas(partList)         # Assign secret santas
     write_files(partList)           # Write files
 
-    print(tabulate(partList, headers=['Name', 'Recipient']))
     print("Complete.")
 
 def open_file(filepath):
@@ -33,6 +33,11 @@ def open_file(filepath):
                 if len(row) != 0:
                     partList.append([row, ""])
             inputFile.close()
+        print(f"Read participant file: {filepath}")
+    else:
+        print(f"Error: Cannot read file: {filepath}")
+        print("Exiting.\n")
+        exit()
     return partList
 
 def assign_santas(partList):
@@ -47,15 +52,17 @@ def write_files(partList):
 def write_file(part):
     fileName = part[0] + "_Santa.txt"
     fileContent = (
-        "To " + part[0] + ",\n" +
-        "You get to buy a secret santa present for " + part[1] + ".\n" +
-        "The budget is $30.00.\n"
+        f"To {part[0]} + ,\n" +
+        f"You get to buy a secret santa present for {part[1]} + .\n" +
+        f"The budget is {BUDGET}.\n"
         "Good luck.\n"
     )
 
     outputFile = open(fileName, mode='w', newline='\r\n')
     outputFile.write(fileContent)
     outputFile.close()
+
+    print(f"File created: {fileName}")
 
 if __name__ == "__main__":
     main()
