@@ -2,8 +2,11 @@ import sys
 import os
 import random
 
+from PIL import Image, ImageDraw, ImageFont
+
 # Constants
-BUDGET = "$30.00"
+BUDGET = '$30.00'
+FONTS_FOLDER = 'C:\Windows\Fonts'
 
 # Main function
 def main():
@@ -60,17 +63,21 @@ def write_files(partList, outputFolder):
         write_file(part, outputFolder)
 
 def write_file(part, outputFolder):
-    fileName = f"{outputFolder}/{part[0]}_Santa.txt"
+    fileName = os.path.join(outputFolder, f"{part[0]}_Santa.png")
     fileContent = (
         f"To {part[0]},\n" +
-        f"You get to buy a secret santa present for {part[1]}.\n" +
+        "You get to buy a secret \n" +
+        f"santa present for {part[1]}.\n" +
         f"The budget is {BUDGET}.\n"
         "Good luck.\n"
     )
 
-    outputFile = open(fileName, mode='w', newline='\r\n')
-    outputFile.write(fileContent)
-    outputFile.close()
+    im = Image.new('RGBA', (600, 250), 'white')
+    draw = ImageDraw.Draw(im)
+    fontsFolder = FONTS_FOLDER
+    robotoFont = ImageFont.truetype(os.path.join(fontsFolder, 'Roboto-Regular.ttf'), 32)
+    draw.text((20, 20), fileContent, fill='black', font=robotoFont)
+    im.save(fileName)
 
     print(f"File created: {fileName}")
 
